@@ -1,7 +1,8 @@
 //
 //  PetriDish.h
-//  PetriDish
+//  PetriDish v0.9
 //
+//  Replaced by Glenn Sugden on 2012.05.10.
 //  Created by Glenn Sugden on 2012.05.05.
 //  This source is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 //  To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
@@ -14,8 +15,8 @@
 #pragma mark Definitions
 //================================================================================
 
-#define GA_CLASS            GASteadyStateGA//GASimpleGA     // GADemeGA  // GASteadyStateGA // GAIncrementalGA
-#define USING_GASIMPLEGA    0              // Set this to 0 if using one of the other GA's above
+#define GA_CLASS            GASimpleGA     // GASimpleGA     // GADemeGA  // GASteadyStateGA // GAIncrementalGA
+#define USING_GASIMPLEGA    1              // Set this to 0 if using one of the other GA's above
 
 //================================================================================
 #pragma mark Headers
@@ -38,6 +39,9 @@ public:
     // EVALUATOR
     static void GAPDEvaluator( GAPopulation& pop );
     
+    // TERMINATOR (interrupt)
+    static GABoolean InterruptTerminator(GAGeneticAlgorithm & ga);
+
     // DESTRUCTOR
     ~PetriDish();
     

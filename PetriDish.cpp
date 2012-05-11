@@ -1,7 +1,8 @@
 //
 //  PetriDish.cpp
-//  PetriDish
+//  PetriDish v0.9
 //
+//  Replaced by Glenn Sugden on 2012.05.10.
 //  Created by Glenn Sugden on 2012.05.05.
 //  This source is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 //  To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
@@ -47,10 +48,6 @@ private:
 };
 
 //================================================================================
-#pragma mark Prototypes
-//================================================================================
-
-//================================================================================
 #pragma mark Methods
 //================================================================================
 
@@ -79,15 +76,15 @@ void PetriDish::GAPDEvaluator( GAPopulation & pop )
     assert(pop.size() > 0);
     
     // Since this is a static method, get this population's associated PetriDish
-    PetriDish* thisPetriDisk = dynamic_cast<PetriDish*>(pop.geneticAlgorithm());
-    assert(thisPetriDisk);
+    PetriDish* thisPetriDish = dynamic_cast<PetriDish*>(pop.geneticAlgorithm());
+    assert(thisPetriDish);
     
 #if USING_GASIMPLEGA
     // A workaround for  oldPop not copying our Evaluator to the next set of Genomes (as opposed to hacking GASimpleGA.C)
-    if ( thisPetriDisk->_oldPopInitialized == false )
+    if ( thisPetriDish->_oldPopInitialized == false )
     {
-        thisPetriDisk->_oldPopInitialized = true;
-        thisPetriDisk->oldPop->initialize();
+        thisPetriDish->_oldPopInitialized = true;
+        thisPetriDish->oldPop->initialize();
     }
 #endif//USING_GASIMPLEGA
     
@@ -117,7 +114,7 @@ void PetriDish::GAPDEvaluator( GAPopulation & pop )
 #endif//DEBUG
     
     // Loop until every population member has been evaluated.
-    while ( completed < pop.size( ) && ( thisPetriDisk->_interrupt == false ) ) 
+    while ( completed < pop.size( ) && ( thisPetriDish->_interrupt == false ) ) 
     {
         // If we still have members to evaluate, and there's a free thread open
         if ( ( indIndex < pop.size( ) ) && ( backgroundThreads[tIndex] == NULL ) )
@@ -184,9 +181,11 @@ void PetriDish::GAPDEvaluator( GAPopulation & pop )
         }
     }      
     
-    if ( thisPetriDisk->_interrupt == true )
+    if ( thisPetriDish->_interrupt == true )
     {
-        cerr << "...evaluation interrupted!";
+        cerr << "...evaluation interrupted!" << std::endl;
+        
+        thisPetriDish->terminator(InterruptTerminator);
     }
 #if DEBUG
     else
@@ -197,7 +196,7 @@ void PetriDish::GAPDEvaluator( GAPopulation & pop )
     
     for ( tIndex = 0; tIndex < numberOfThreadsToUse; tIndex++ )
     {
-        if ( thisPetriDisk->_interrupt == false )
+        if ( thisPetriDish->_interrupt == false )
         {
             // Double (sanity) check that all of the threads have actually been processed
             assert( backgroundThreads[tIndex] == NULL );
@@ -223,8 +222,19 @@ void PetriDish::GAPDEvaluator( GAPopulation & pop )
 
 // Simply call the genome's evaluate function, then mark the threaded genome with an "all finished" flag
 // (Simply relying on the thread being "done" turns out to not be very reliable)
-void BackgroundEvaluator::operator( )( )
+void BackgroundEvaluator::BackgroundEvaluator::operator( )( )
 {        
     _individual->evaluate( );
     _finished = true;
+}
+
+// Force the done() call to always report true (for an interruption)
+GABoolean PetriDish::InterruptTerminator(GAGeneticAlgorithm & ga)
+{
+    // Since this is a static method, coerce the PetriDish
+    PetriDish& thisPetriDish = dynamic_cast<PetriDish&>(ga);
+
+    assert(thisPetriDish._interrupt == true);
+    
+    return gaTrue;
 }
