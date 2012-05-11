@@ -56,6 +56,10 @@ Step by step instructions:
 
      E.G., in ex1.C,  line 63: instead of "GASimpleGA ga(genome);" you would use
      "PetriDish ga(genome);"
+     
+  6) #include "PetriDish.h" in the source files that require it.
+  
+     E.G. at the top of ex1.C
 
                               That's (basically) it!
 
@@ -72,8 +76,8 @@ NOTES: The Evaluator shell itself isn't threaded. A call to "evolve()" (or
 
        There is an "interrupt" method (that can be invoked via "ga.interrupt()")
        that will: halt the Evaluator, try to interrupt the threads, and clean up
-       the memory that has been allocated. I haven't thoroughly tested this yet,
-       so YMMV.
+       the memory that has been allocated. I haven't thoroughly torture-tested this
+       yet, so YMMV a bit.
 
        By compiling with the DEBUG symbol defined (as 1, for instance), you'll
        get some statistics output'd to STD_COUT. It can be a lot of text, so the
@@ -87,8 +91,6 @@ FUTURE PLANS:    GA interrupt.
                  this, and it isn't trivial).
                - Order of difficulty: Preload shared data, load shared data
                  dynamically, data modification
-               - Include (my version's) "I found the answer, everyone stop!"
-                 Terminator overrides.
                - A threaded (background) version of the Evaluator itself.
                - Performance instrumentation
                - Time to completion estimation
