@@ -200,7 +200,11 @@ void PetriDish::GAPDEvaluator( GAPopulation & pop )
         {
             // Double (sanity) check that all of the threads have actually been processed
             assert( backgroundThreads[tIndex] == NULL );
-            assert( backgroundEvaluators[tIndex]->finished() == true );
+            
+            if ( backgroundEvaluators[tIndex] != NULL ) // This can happen if all cores aren't used
+            {
+                assert( backgroundEvaluators[tIndex]->finished() == true );
+            }
         }
         else
         {
@@ -212,7 +216,10 @@ void PetriDish::GAPDEvaluator( GAPopulation & pop )
             }
         }
         
-        delete backgroundEvaluators[tIndex]; backgroundEvaluators[tIndex] = NULL;
+        if ( backgroundEvaluators[tIndex] != NULL ) // This can happen if all cores aren't used
+        {
+            delete backgroundEvaluators[tIndex]; backgroundEvaluators[tIndex] = NULL;
+        }
     }
     
     // Free up the thread and background information arrays
