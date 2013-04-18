@@ -13,3 +13,9 @@
 
 # GAlib examples
 examples/
+examples.galib/
+
+# XCode project
+*xcodeproj*
+
+.DS_Store
