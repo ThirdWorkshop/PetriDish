@@ -6,7 +6,12 @@ A multithreaded Evaluator for the C++ Genetic Algorithm library: GAlib
 
 Requires:
   GALib             2.4.7+  http://lancet.mit.edu/ga/
+  
+Optional:
   Boost (threads)   1.4.9   http://www.boost.org/
+
+CHANGES:  2013.04.17  Boost threads are now optional (provided support for pthreads).
+                      ** this still needs some testing! **
 
 IMPORTANT:  This framework is intended for Genomes that take a long time to
             process individually (I.E., their Objective() function takes a long time to
@@ -94,6 +99,4 @@ FUTURE PLANS:    GA interrupt.
                - A threaded (background) version of the Evaluator itself.
                - Performance instrumentation
                - Time to completion estimation
-               - Remove boost library dependency (I started without it
-                 (pthreads), but it isn't super pretty).
 </pre>
