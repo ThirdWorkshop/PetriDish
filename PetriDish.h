@@ -1,7 +1,8 @@
 //
 //  PetriDish.h
-//  PetriDish v0.9
+//  PetriDish v0.91
 //
+//  Updated by Glenn Sugden on 2016.04.01 : Fixed #ifdef, switched back to GASimpleGA default.
 //  Replaced by Glenn Sugden on 2012.05.10.
 //  Created by Glenn Sugden on 2012.05.05.
 //  This source is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
@@ -15,10 +16,10 @@
 #pragma mark Definitions
 //================================================================================
 
-//#define GA_CLASS            GASimpleGA
-//#define                     USING_GASIMPLEGA
+#define GA_CLASS            GASimpleGA
+#define                     USING_GASIMPLEGA
 
-#define GA_CLASS              GASteadyStateGA
+//#define GA_CLASS            GASteadyStateGA
 //#define GA_CLASS            GAIncrementalGA
 //#define GA_CLASS            GADemeGA
 
@@ -58,7 +59,7 @@ private:
 
     bool _interrupt;            // A flag indicating we need to bail on the Evaluation
 
-#if USING_GASIMPLEGA
+#ifdef USING_GASIMPLEGA
     bool _oldPopInitialized;    // A flag for a GASimpleGA workaround (see GAPDEvaluator)
 #endif//USING_GASIMPLEGA
 

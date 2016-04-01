@@ -1,7 +1,8 @@
 //
 //  PetriDish.cpp
-//  PetriDish v0.9
+//  PetriDish v0.91
 //
+//  Updated by Glenn Sugden on 2016.04.01 : Fixed #ifdef, switched back to GASimpleGA default.
 //  Replaced by Glenn Sugden on 2012.05.10.
 //  Created by Glenn Sugden on 2012.05.05.
 //  This source is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
@@ -74,7 +75,7 @@ PetriDish::PetriDish(const GAGenome& genomeToClone) : GA_CLASS(genomeToClone), _
     // Install our own evaluator that kicks off evaluations in the background (below)
     thisPop.evaluator( GAPDEvaluator );
 
-#if USING_GASIMPLEGA
+#ifdef USING_GASIMPLEGA
     // A necessary workaround flag (see below)
     _oldPopInitialized = false;
 #endif//USING_GASIMPLEGA
